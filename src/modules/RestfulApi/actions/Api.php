@@ -456,7 +456,11 @@ class RestfulApi_Api_Action extends RestFulApi_Rest_Model
 				$field = vtlib_purify($field);
 			}
 
-			$m_result = $focus->column_fields;
+			$m_result = $focus->column_fields->getColumnFields();
+			if($this->module == 'Invoice' || $this->module == 'Quotes' || $this->module == 'SalesOrder' || $this->module == 'PurchaseOrder') { 
+                $recordModel = Vtiger_Record_Model::getInstanceById($id);
+                $m_result["products"] = $recordModel->getProducts();
+            }
 			$m_result["api_date_now"] = date("Y-m-d H:i:s"); //Added to control the serveur hour
 		}
 
